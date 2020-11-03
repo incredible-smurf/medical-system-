@@ -5,10 +5,16 @@ const dati = r => require.ensure([], () => r(require('../page/dati/dati')), 'dat
 
 
 //const register = r => require.ensure([], () => r(require('../page/register/register')), 'register')
+//登记工作站
 const registerAside = r => require.ensure([], () => r(require('../page/register/aside')), 'registerAside')
 const newregister = r => require.ensure([], () => r(require('../page/register/newregister')), 'newregister')
 const registerquery = r => require.ensure([], () => r(require('../page/register/query')), 'query')
 const newregisterCreate= r => require.ensure([], () => r(require('../page/register/newregisterCreate')), 'newregisterCreate')
+
+
+//模板管理工作站
+const templateAside = r => require.ensure([], () => r(require('../page/template/aside')), 'templateAside')
+const templatemain = r => require.ensure([], () => r(require('../page/template/newtemplate_main')), 'newtemplate_main')
 /*const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop')
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const profile = r => require.ensure([], () => r(require('../page/profile/profile')), 'profile')
@@ -91,6 +97,14 @@ export default  [
         {
             path:'/dati',
             component:dati
+        },
+        {
+            path:'/template',
+            component:templateAside,
+            children:[{
+                path:'templatemain',
+                component:templatemain
+            }]
         }
         
     ]

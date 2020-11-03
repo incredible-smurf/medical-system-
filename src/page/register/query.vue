@@ -36,20 +36,20 @@
     data() {
       return {
         tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
+          date: '1',
+          name: '王1',
           address: '上海市普陀区金沙江路 1518 弄'
         }, {
-          date: '2016-05-04',
-          name: '王小虎',
+          date: '2',
+          name: '王2',
           address: '上海市普陀区金沙江路 1517 弄'
         }, {
-          date: '2016-05-01',
-          name: '王小虎',
+          date: '3',
+          name: '王3',
           address: '上海市普陀区金沙江路 1519 弄'
         }, {
-          date: '2016-05-03',
-          name: '王小虎',
+          date: '4',
+          name: '王四',
           address: '上海市普陀区金沙江路 1516 弄'
         }],
         search: ''

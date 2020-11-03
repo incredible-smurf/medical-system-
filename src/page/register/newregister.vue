@@ -18,24 +18,34 @@
         ></el-input>
       </el-col>
     </el-row>
-    <el-row type="flex" class="buttonquery" justify="center" :gutter="10">
-      <el-col :span="6">
-        <el-button @click="queryforcreate">查询</el-button>
+    <el-row type="flex" class="buttonquery"  :gutter="10">
+      <el-col :span="15" :offset="2">
+        <div class="smalls">病历</div>
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4 }"
+          placeholder="请输入病历内容"
+          v-model="textarea2"
+        >
+        </el-input>
       </el-col>
     </el-row>
+    <el-row type="flex" class="buttonquery" justify="center" :gutter="10">
+      <el-col :span="6">
+        <el-button @click="queryforcreate">建立病理档案</el-button>
+      </el-col>
+    </el-row>
+    
     <el-row type="flex" class="buttonquery">
-      <el-col :span="10" offset="6">
-        <el-table style="width: 100%" stripe>
-          <el-table-column label="病人姓名"></el-table-column>
-          <el-table-column label="ID"></el-table-column>
-        </el-table>
-         </el-col>
+      <el-col :offset="2" :span="15">
+      <el-table stripe>
+        <el-table-column label="病人姓名"></el-table-column>
+        <el-table-column label="ID"></el-table-column>
+      </el-table>
+      </el-col>
     </el-row>
 
     <router-view />
-    <router-link target="_blank" :to="{ path: '/register/newregister' }"
-      >新页面打开home页</router-link
-    >
   </el-main>
 </template>
 
@@ -45,6 +55,7 @@ export default {
     return {
       name: "",
       patientid: "",
+      textarea2:""
     };
   },
   methods: {
