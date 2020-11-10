@@ -8,7 +8,8 @@
 <script>
 import headPart from './components/headPart'
 export default {
-  components:{headPart}
+  components:{headPart},
+  
 
 }
 </script>

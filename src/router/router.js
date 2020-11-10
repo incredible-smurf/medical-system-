@@ -1,4 +1,6 @@
-
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 
 const dati = r => require.ensure([], () => r(require('../page/dati/dati')), 'dati')
@@ -15,6 +17,10 @@ const newregisterCreate= r => require.ensure([], () => r(require('../page/regist
 //模板管理工作站
 const templateAside = r => require.ensure([], () => r(require('../page/template/aside')), 'templateAside')
 const templatemain = r => require.ensure([], () => r(require('../page/template/newtemplate_main')), 'newtemplate_main')
+
+//登录
+const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
+const countCreate=r => require.ensure([], () => r(require('../page/login/accountCreate')), 'accountCreate')
 /*const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop')
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const profile = r => require.ensure([], () => r(require('../page/profile/profile')), 'profile')
@@ -60,18 +66,30 @@ const download = r => require.ensure([], () => r(require('../page/download/downl
 
 
 
-export default  [ 
+const routes=[ 
         //地址为空时跳转home页面
         {
             path: '',
-            redirect: '/home'
+            redirect: '/login'
         },
         //首页城市列表页
         {
             path: '/home',
             component: home
         },
-        //当前选择城市页
+        //登录
+        {
+            path: '/login',
+            name: 'login',
+            component: login,
+        },
+        //注册
+        {
+            path:'/createaccount',
+            name:'accountCreate',
+            component:countCreate
+        },
+        //登记工作站
         {
             path: '/register',
             component: registerAside,
@@ -107,5 +125,24 @@ export default  [
             }]
         }
         
-    ]
+]
+const router=new VueRouter({
+	routes,
+	mode: 'history',
+})
+
+/* router.beforeEach((to, from, next) => {
+    if (to.path === '/login') {
+      next();
+    } else {
+      let token = localStorage.getItem('Authorization');
+   
+      if (token === 'null' || token === '') {
+        next('/login');
+      } else {
+        next();
+      }
+    }
+  }); */
+export default  router
 
