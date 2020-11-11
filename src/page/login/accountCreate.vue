@@ -1,6 +1,12 @@
 <template>
   <div class="login-form">
-    <el-form :model="Form" status-icon :rules="rules" label-width="100px">
+    <el-form
+      :model="Form"
+      status-icon
+      :rules="rules"
+      label-width="100px"
+      ref="Form"
+    >
       <h2 class="login-title">注册新用户</h2>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="Form.username" autocomplete="off"></el-input>
@@ -8,39 +14,54 @@
       <el-form-item label="密码" prop="password">
         <el-input
           type="password"
-          v-model="Form.pass"
+          v-model="Form.password"
           autocomplete="off"
         ></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="checkPass">
+      <el-form-item label="确认密码" prop="checkpass">
         <el-input
           type="password"
-          v-model="Form.checkPass"
+          v-model="Form.checkpass"
           autocomplete="off"
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="primary" @click="submitForm('Form')">提交</el-button>
+        <el-button @click="resetForm('Form')">重置</el-button>
+        <el-button @click="$router.back()">返回</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   data() {
-    var checkusername=(rule, value, callback) => {
+    var checkusername = (rule, value, callback) => {
+      if(value==="")
+      callback(new Error("请输入用户名"))
+       this.$axios
+        .get("/userList")
+        .then((response) => {
+          for (let i =0 ;i<response.data.results.length;i++)
+            if(value===response.data.results[i].account_number)
+            {
+              callback(new Error("该名称已占用"))
+            }
+            callback();
+        })
+        .catch((error) => {
+          callback(new Error(error));;
+        }); 
         
-    }
+    };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.Form.checkPass !== "") {
-          this.$refs.Form.validateField("checkPass");
+        if (this.Form.checkpass !== "") {
+          this.$refs.Form.validateField("checkpass");
         }
         callback();
       }
@@ -58,13 +79,44 @@ export default {
       Form: {
         username: "",
         password: "",
-        chechpass: "",
+        checkpass: "",
       },
       rules: {
         password: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        checkpass: [{ validator: validatePass2, trigger: "blur" }],
+        username: [{ validator: checkusername, trigger: "blur" }],
       },
     };
+  },
+  methods: {
+    ...mapMutations(['changeLogin']),
+    submitForm(formName) {
+      let _self=this
+      let tmpsummit={"username":_self.Form.username,"password":_self.Form.password}
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios.post('/userCreate/',tmpsummit)
+          .then(res=>{
+            this.$axios.post('/api-token-auth/',tmpsummit)
+            .then(res=>{
+              _self.changeLogin({Authorization: res.data.token})
+               _self.$axios.defaults.headers.Authorization='Token '+res.data.token
+              _self.$router.push('/home')
+            })
+            })
+        } 
+        else {
+          alert("请重新填写表单");
+          console.log("as")
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
   },
 };
 </script>
@@ -72,7 +124,7 @@ export default {
 <style scoped>
 .login-form {
   width: 350px;
-  margin: 50px auto; /* 上下间距160px，左右自动居中*/
+  margin: 100px auto; /* 上下间距160px，左右自动居中*/
   background-color: rgb(255, 255, 255, 0.8); /* 透明背景色 */
   padding: 30px;
   border-radius: 20px; /* 圆角 */

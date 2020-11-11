@@ -1,9 +1,7 @@
-import Vue from 'vue';//引用vue
-import Vuex from 'vuex';//引用vuex
-Vue.use(Vuex);//使用vuex
-const state={
-    
-}
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
 export default new Vuex.Store({////暴露Store对象
     state: {
         // 存储token

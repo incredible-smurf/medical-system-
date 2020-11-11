@@ -8,9 +8,6 @@
 import NewForm from "../../components/customform"
 export default {
     components:{NewForm},
-    
-    
-
 }
 </script>
 

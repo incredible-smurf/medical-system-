@@ -8,6 +8,7 @@
   <el-menu-item index="6"><router-link to="/register">主诊工作站</router-link></el-menu-item>
   <el-menu-item index="7"><router-link to="/register">登记工作站</router-link></el-menu-item>
   <el-menu-item index="8">模板管理系统</el-menu-item>
+  <el-menu-item index="9" style="float:right">用户界面</el-menu-item>
 
   <!-- <el-submenu index="2">
     <template slot="title">我的工作台</template>
@@ -46,12 +47,14 @@ export default {
             this.$router.push('/register')
             break
           case '8':
-            this.$router.push('/template')
+            this.$router.push('/template/templatemain')
+            break
+          case '9':
+            this.$router.push('/userpro/userprofile')
             break
         }
           
-        
-        console.log(keyPath)
+      
     }
   }
 

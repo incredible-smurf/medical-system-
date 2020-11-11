@@ -11,8 +11,8 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password"></el-input>
+      <el-form-item label="密码" prop="password" >
+        <el-input v-model="form.password" type="password"></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -23,6 +23,7 @@
   </div>
 </template>
     <script>
+    import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -33,21 +34,35 @@ export default {
       rules: {
         username: [
           { required: true, message: "用户名不能为空", trigger: "blur" },
-          { min: 3, max: 10, message: "用户名3-5位", trigger: "blur" },
+          
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          { min: 3, max: 10, message: "密码3-5位", trigger: "blur" },
+          
         ],
       },
     };
   },
   methods: {
+    ...mapMutations(['changeLogin']),
     submitForm(formName) {
+      let _now=this
+      let tmpsummit={"username":this.form.username,"password":this.form.password}
       this.$refs[formName].validate((valid) => {
-        // console.log(valid) 验证通过为true，有一个不通过就是false
         if (valid) {
-          // 通过的逻辑
+          this.$axios.post('/api-token-auth/',tmpsummit)
+          .then(res=>{
+            _now.changeLogin({Authorization: res.data.token})
+            _now.$router.push('/home');
+            _now.$axios.defaults.headers.Authorization='Token '+res.data.token
+            //
+            
+            //
+
+
+          }).catch((error)=>{
+            alert("用户名或密码错误");
+          })
         } else {
           console.log("验证失败");
           return false;
@@ -65,7 +80,7 @@ export default {
   <style acoped>
 .login-form {
   width: 350px;
-  margin: 160px auto; /* 上下间距160px，左右自动居中*/
+  margin: 100px auto; /* 上下间距160px，左右自动居中*/
   background-color: rgb(255, 255, 255, 0.8); /* 透明背景色 */
   padding: 30px;
   border-radius: 20px; /* 圆角 */

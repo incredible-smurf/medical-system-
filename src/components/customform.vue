@@ -3,7 +3,7 @@
 <div v-if="index2==0">
     <el-card class="box-card"  style="width: 80%;margin-left: 10%;min-height: 150px;margin-top: 10px;">
       <el-input class="radio1"
-        placeholder="请输入表单主题"
+        placeholder="请输入模板主题"
         v-model="title"
         clearable
         style="width: 100%;font-size: 28px;">
@@ -11,7 +11,7 @@
       <el-input class="textarea"
         type="textarea"
         :rows="2"
-        placeholder="请输入表单描述"
+        placeholder="请输入模板描述"
         v-model="miaoshu"
         style="width: 100%;font-size: 16px;margin-top: 10px;">
       </el-input>
@@ -19,7 +19,7 @@
     <el-card class="box-card" style="width: 80%;margin-left: 10%;min-height: 150px;margin-top: 10px;" v-for="i in num"
              :id="i">
       <div>
-        <el-tag >{{i}}</el-tag>
+        <el-tag>{{i}}</el-tag>
         <el-input
           placeholder="请输入内容"
           v-model="inputBT[i]"
@@ -48,7 +48,7 @@
       <div class="radio" v-if="value[i]=='radio'" style="color: grey;margin-top: 20px;">
 
         <div v-for="j in radionum[i]" :id="j">
-          ○
+          
           <el-input
             placeholder="请输入选项名"
             v-model="radioname[i][j]"
@@ -177,19 +177,20 @@
 
                 //下面待优化
                 //单选按钮的选项个数
-                    radionum: [2],
+                //-100占位 
+                    radionum: [-100,2],
                     //单选按钮名字
-                    radioname: [[]],
+                    radioname: [[],[]],
 
                     //多选按钮的选项个数
-                    checkboxnum: [2],
+                    checkboxnum: [-100,2],
                     //多选按钮名字
-                    checkboxname: [[]],
+                    checkboxname: [[],[]],
 
                     //下拉框的选项个数
-                    selectnum: [2],
+                    selectnum: [-100,2],
                     //下拉框名字
-                    selectname: [[]],
+                    selectname: [[],[]],
 
                 //生成的表单规则
                 formrule:[],
@@ -207,35 +208,35 @@
         methods: {
            //增加组件
             adddiv() {
-                this.form.num += 1;
-                this.form.inputBT.push()
-                this.form.radionum.push(2);
-                this.form.radioname.push([])
-                this.form.checkboxnum.push(2);
-                this.form.checkboxname.push([])
-                this.form.selectnum.push(2);
-                this.form.selectname.push([]);
+                this.num += 1;
+                this.inputBT.push()
+                this.radionum.push(2);
+                this.radioname.push([])
+                this.checkboxnum.push(2);
+                this.checkboxname.push([])
+                this.selectnum.push(2);
+                this.selectname.push([]);
 
 
             },
             //删除组件
             delectdiv() {
-                if(this.form.num>1){
-                    this.form.num -= 1;
-                    this.form.inputBT.pop();
-                    this.form.radionum.pop();
-                    this.form.radioname.pop();
-                    this.form.checkboxnum.pop();
-                    this.form.checkboxname.pop()
-                    this.form.selectnum.pop();
-                    this.form.selectname.pop();
+                if(this.num>1){
+                    this.num -= 1;
+                    this.inputBT.pop();
+                    this.radionum.pop();
+                    this.radioname.pop();
+                    this.checkboxnum.pop();
+                    this.checkboxname.pop()
+                    this.selectnum.pop();
+                    this.selectname.pop();
                 }
 
             },
             //增加单选按钮选项，实时更新数组用$set
             addradio(i) {
                 this.$set(this.radionum, i, this.radionum[i] + 1)
-                // this.radionum[i] +=1;
+                
 
             },
             deleteradio(i) {
@@ -245,7 +246,7 @@
             //增加多选按钮选项
             addcheckbox(i) {
                 this.$set(this.checkboxnum, i, this.checkboxnum[i] + 1)
-                // this.radionum[i] +=1;
+                
 
             },
             deletecheckbox(i) {
@@ -263,8 +264,8 @@
             },
 
             tijiao() {
-                console.log(this.inputBT)
-                console.log(this.value)
+                console.log(this.inputBT,'inputBT')
+                console.log(this.value,'value')
                 // console.log(this.radioname)
                 // console.log(this.checkboxname)
                 // console.log(this.selectname)
@@ -291,7 +292,6 @@
                             field:this.inputBT[i],
                             title:this.inputBT[i],
                             options:options,
-
                         },)
 
 
@@ -304,8 +304,6 @@
                             options.push(
                                 {value:this.checkboxname[i][j],label:this.checkboxname[i][j]},
                             )
-
-
                         }
 
 
