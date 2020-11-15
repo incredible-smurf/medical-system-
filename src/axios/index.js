@@ -1,4 +1,7 @@
 import axios from 'axios'
+import qs from 'qs'
+
+
 
 
 
@@ -14,16 +17,17 @@ const instance=axios.create({
     return ret
   }]
 });
-/* instance.interceptors.request.use(
-  config => {
-      if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-          config.headers.Authorization = `token ${store.state.token}`;
-      }
-      return config;
-  },
-  err => {
-      return Promise.reject(err);
-  }); */
+/* instance.interceptors.request.use(function (config) {
+  if(config.method!='get'){
+      config.data=qs.stringify(config.data);
+      console.log(config.data,'???')
+  }
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  return config;
+},function (error) {
+  return Promise.reject(error)
+}) */
+
 console.log(instance.defaults)
 export default instance;
 

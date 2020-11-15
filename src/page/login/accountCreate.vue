@@ -93,6 +93,7 @@ export default {
     submitForm(formName) {
       let _self=this
       let tmpsummit={"username":_self.Form.username,"password":_self.Form.password}
+      console.log(tmpsummit)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios.post('/userCreate/',tmpsummit)

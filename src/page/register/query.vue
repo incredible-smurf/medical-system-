@@ -4,11 +4,15 @@
     style="width: 100%">
     <el-table-column
       label="病人ID"
-      prop="date">
+      prop="id">
     </el-table-column>
     <el-table-column
       label="病人姓名"
       prop="name">
+    </el-table-column>
+    <el-table-column
+      label="病人性别"
+      prop="sex">
     </el-table-column>
     <el-table-column
       align="right">
@@ -33,25 +37,21 @@
 
 <script>
   export default {
+    beforeCreate(){
+      this.$axios.defaults.headers.Authorization='Token '+this.$store.state.Authorization
+      this.$axios.get('/patientList/')
+      .then(res=>{
+        for(let item in res.data.results)
+        {
+          res.data.results[item].sex= res.data.results[item].sex=='male'?"男":"女"
+          this.tableData.push(res.data.results[item])
+        }
+        
+      }).catch(err=>{console.log(err)})
+    },
     data() {
       return {
-        tableData: [{
-          date: '1',
-          name: '王1',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2',
-          name: '王2',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '3',
-          name: '王3',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '4',
-          name: '王四',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        tableData: [],
         search: ''
       }
     },

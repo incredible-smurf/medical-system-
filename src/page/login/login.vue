@@ -55,11 +55,6 @@ export default {
             _now.changeLogin({Authorization: res.data.token})
             _now.$router.push('/home');
             _now.$axios.defaults.headers.Authorization='Token '+res.data.token
-            //
-            
-            //
-
-
           }).catch((error)=>{
             alert("用户名或密码错误");
           })
@@ -71,7 +66,6 @@ export default {
     },
     switchToNewAc(){
         this.$router.push('/createaccount')
-
     }
   },
 };

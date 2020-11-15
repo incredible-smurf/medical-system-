@@ -3,7 +3,7 @@
   <el-aside width="250px" > 
       <el-menu default-active="1" @select="handleSelect">
         <el-menu-item index="1">
-          <span slot="title">建立新档案</span>
+          <span slot="title">建立新病人信息</span>
         </el-menu-item> 
         <el-menu-item index="2">
           <span slot="title">档案查询</span>
