@@ -487,7 +487,7 @@ export default {
     submitForm(msg) {
       this.$refs[msg].validate((valid) => {
         if (valid) {
-          let tmp={detail:''}
+          let tmp={detail:{}}
           tmp.name=this.submit.name
           tmp.category=this.submit.category
           

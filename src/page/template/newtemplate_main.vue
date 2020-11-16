@@ -7,9 +7,9 @@
 
 <script>
 import NewForm from "../../components/customform"
-import trys from "../../components/try_tmp"
+
 export default {
-    components:{NewForm,trys},
+    components:{NewForm},
 }
 </script>
 

@@ -92,9 +92,6 @@ export default {
           }).catch(err=>{alert(err)})
         }
       })
-      /*
-      查询需求
-      */
     },
   },
 };

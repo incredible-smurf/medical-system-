@@ -12,7 +12,7 @@ const registerAside = r => require.ensure([], () => r(require('../page/register/
 const newregister = r => require.ensure([], () => r(require('../page/register/newregister')), 'newregister')
 const registerquery = r => require.ensure([], () => r(require('../page/register/query')), 'query')
 const newregisterCreate= r => require.ensure([], () => r(require('../page/register/newregisterCreate')), 'newregisterCreate')
-
+const showPatientDetail=r => require.ensure([], () => r(require('../page/register/showPatientDetail')), 'showPatientDetail')
 
 //模板管理工作站
 const templateAside = r => require.ensure([], () => r(require('../page/template/aside')), 'templateAside')
@@ -24,7 +24,8 @@ const countCreate=r => require.ensure([], () => r(require('../page/login/account
 const usermain=r => require.ensure([], () => r(require('../page/userProfile/main')), 'Profile')
 const userprofile=r => require.ensure([], () => r(require('../page/userProfile/userProfile')), 'userProfile')
 const changepassword = r => require.ensure([], () => r(require('../page/userProfile/changepasswd')), 'changepasswd')
-
+//大体
+const createdati=r => require.ensure([], () => r(require('../page/dati/create')), 'createdati')
 
 
 
@@ -69,6 +70,10 @@ const routes=[
                 {
                     path:'query',
                     component:registerquery
+                },
+                {
+                    path:'showpatientdetail',
+                    component:showPatientDetail
                 }
                 
             ]
@@ -76,7 +81,11 @@ const routes=[
         },
         {
             path:'/dati',
-            component:dati
+            component:dati,
+            children:[{
+                path:'create',
+                component:createdati
+            }]
         },
         {
             path:'/template',
@@ -111,7 +120,6 @@ const router=new VueRouter({
 //登录控制
 import storeitem from "../store/store"
 router.beforeEach((to, from, next) => {
-    
     if (to.path === '/login'||to.path==='/createaccount') {
       next();
     } else {

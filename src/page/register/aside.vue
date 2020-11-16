@@ -6,7 +6,7 @@
           <span slot="title">建立新病人信息</span>
         </el-menu-item> 
         <el-menu-item index="2">
-          <span slot="title">档案查询</span>
+          <span slot="title">病人信息查询</span>
         </el-menu-item> 
       </el-menu>
     </el-aside>
