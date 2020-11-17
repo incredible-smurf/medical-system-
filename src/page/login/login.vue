@@ -11,7 +11,7 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password" >
+      <el-form-item label="密码" prop="password">
         <el-input v-model="form.password" type="password"></el-input>
       </el-form-item>
 
@@ -23,7 +23,7 @@
   </div>
 </template>
     <script>
-    import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -34,39 +34,58 @@ export default {
       rules: {
         username: [
           { required: true, message: "用户名不能为空", trigger: "blur" },
-          
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          
         ],
       },
     };
   },
   methods: {
-    ...mapMutations(['changeLogin']),
+    ...mapMutations(["changeLogin", "changeUser"]),
     submitForm(formName) {
-      let _now=this
-      let tmpsummit={"username":this.form.username,"password":this.form.password}
+      let _now = this;
+      let tmpsummit = {
+        username: this.form.username,
+        password: this.form.password,
+      };
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/api-token-auth/',tmpsummit)
-          .then(res=>{
-            _now.changeLogin({Authorization: res.data.token})
-            _now.$router.push('/home');
-            _now.$axios.defaults.headers.Authorization='Token '+res.data.token
-          }).catch((error)=>{
-            alert("用户名或密码错误");
-          })
+          this.$axios
+            .post("/api-token-auth/", tmpsummit)
+            .then((res) => {
+              _now.changeLogin({ Authorization: res.data.token });
+              _now.$router.push("/home");
+              _now.$axios.defaults.headers.Authorization =
+                "Token " + res.data.token;
+              let usertmp={}
+              this.$axios
+                .get("/userInfoRU/")
+                .then((res) => {
+                  let sex = res.data.sex == "male" ? "男" : "女";
+                  usertmp.name = res.data.name;
+                  usertmp.office = res.data.office;
+                  usertmp.phoneNumber = res.data.phoneNumber;
+                  usertmp.sex = sex;
+                  usertmp.title = res.data.title;
+                  _now.changeUser(usertmp)
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            })
+            .catch((error) => {
+              alert("用户名或密码错误");
+            });
         } else {
           console.log("验证失败");
           return false;
         }
       });
     },
-    switchToNewAc(){
-        this.$router.push('/createaccount')
-    }
+    switchToNewAc() {
+      this.$router.push("/createaccount");
+    },
   },
 };
 </script>

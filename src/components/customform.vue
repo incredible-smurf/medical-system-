@@ -487,17 +487,17 @@ export default {
     submitForm(msg) {
       this.$refs[msg].validate((valid) => {
         if (valid) {
-          let tmp={detail:{}}
+          let tmp={}
           tmp.name=this.submit.name
           tmp.category=this.submit.category
-          
-          console.log(JSON.stringify(tmp))
+          let detail={template:this.formrule}
+          tmp.detail=JSON.stringify(detail)
           this.$axios.defaults.headers.Authorization='Token '+this.$store.state.Authorization
-          console.log(this.$axios.defaults)
-          console.log('Token '+this.$store.state.Authorization)
-          this.$axios.post('/grossDiagnosisModelCreat/',qs.stringify(tmp))
-          .then(res=> {console.log(res)})
-          .catch(err=>{console.log(err)})
+          //console.log(this.$axios.defaults)
+          //console.log('Token '+this.$store.state.Authorization)
+           this.$axios.post('/grossDiagnosisModelCreat/',tmp)
+          .then(res=> {alert("创建成功")})
+          .catch(err=>{console.log(err)}) 
         } else {
           
         }

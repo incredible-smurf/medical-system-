@@ -22,6 +22,9 @@ methods:{
                 case '1':
                     this.$router.push('/template/templatemain')
                     break
+                case '2':
+                  this.$router.push('/template/templatequery')
+                  break
             }
     }
 }

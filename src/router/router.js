@@ -17,7 +17,8 @@ const showPatientDetail=r => require.ensure([], () => r(require('../page/registe
 //模板管理工作站
 const templateAside = r => require.ensure([], () => r(require('../page/template/aside')), 'templateAside')
 const templatemain = r => require.ensure([], () => r(require('../page/template/newtemplate_main')), 'newtemplate_main')
-
+const templatequery =r => require.ensure([], () => r(require('../page/template/templatequery')), 'templatequery')
+const showtemplatedetail=r => require.ensure([], () => r(require('../page/template/showtemplatedetail')), 'showtemplatedetail')
 //登录和用户管理
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const countCreate=r => require.ensure([], () => r(require('../page/login/accountCreate')), 'accountCreate')
@@ -93,7 +94,15 @@ const routes=[
             children:[{
                 path:'templatemain',
                 component:templatemain
-            }]
+            },
+        {
+            path:'templatequery',
+            component:templatequery
+        },
+    {
+        path:"showtemplatedetail",
+        component:showtemplatedetail
+    }]
         },
         {
             path:'/userpro',

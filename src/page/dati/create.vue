@@ -16,8 +16,30 @@
             ></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="10">
+          <el-form-item label="请选择大体模板" prop="template">
+            <el-cascader
+              v-model="form.template"
+              :options="templatelist"
+              @change="handleChange"
+            ></el-cascader>
+          </el-form-item>
+        </el-col>
       </el-row>
-      <el-row type="flex" class="buttonquery" justify="center" :gutter="10">
+      <form-create
+        v-if="pageindex == 1"
+        v-model="formContent"
+        :rule="formrule"
+        :option="option"
+        style="width: 80%; margin-top: 20px"
+      ></form-create>
+      <el-row
+        type="flex"
+        class="buttonquery"
+        justify="center"
+        :gutter="10"
+        v-if="pageindex == 1"
+      >
         <el-col :span="6">
           <el-button @click="daticreate('daticreate')">新建大体报告</el-button>
         </el-col>
@@ -29,6 +51,26 @@
 <script>
 import qs from "qs";
 export default {
+  beforeCreate() {
+    this.$axios.defaults.headers.Authorization =
+      "Token " + this.$store.state.Authorization;
+    this.$axios
+      .get("/grossDiagnosisModelList/", {
+        category: "Gross",
+        search: this.$store.state.userprofile.name,
+      })
+      .then((res) => {
+        for (let i in res.data.results) {
+          let tmp = {};
+          tmp.value = res.data.results[i].id;
+          tmp.label = res.data.results[i].name;
+          this.templatelist.push(tmp);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  },
   data() {
     let idisok = (rule, value, callback) => {
       if (value == "") callback(new Error("请输入病理档案ID"));
@@ -43,9 +85,24 @@ export default {
       form: {
         detail: {},
         medicalFile: "",
+        template: "",
       },
       rules: {
-        medicalFile: [{ validator: idisok, trigger: "blur" }],
+        medicalFile: [{ required: true, validator: idisok, trigger: "blur" }],
+        template: [
+          { required: true, message: "请选择一个模板", trigger: "change" },
+        ],
+      },
+
+      templatelist: [],
+
+      formrule: [],
+      formContent: {},
+      pageindex: 0,
+      option: {
+        submitBtn: {
+          show: false,
+        },
       },
     };
   },
@@ -53,17 +110,16 @@ export default {
     daticreate(table) {
       let _this = this;
       let tmp = {};
-      tmp.medicalFile = 1;
-      tmp.detail = { a: 1 };
-      console.log(qs.stringify(tmp));
+      tmp.medicalFile = this.form.medicalFile;
       this.$refs[table].validate((valid) => {
         if (valid) {
+          tmp.detail = JSON.stringify(this.formrule);
           this.$axios.defaults.headers.Authorization =
             "Token " + this.$store.state.Authorization;
           this.$axios
-            .post("/grossReportLC/", qs.stringify(tmp))
+            .post("/grossReportLC/", tmp)
             .then((res) => {
-              alert("大体报告创建成功");
+              alert("创建成功");
             })
             .catch((err) => {
               alert(err);
@@ -71,7 +127,21 @@ export default {
         }
       });
     },
+    handleChange(value) {
+      this.$axios.defaults.headers.Authorization =
+        "Token " + this.$store.state.Authorization;
+      this.pageindex = 1;
+      this.$axios
+        .get("/grossDiagnosisModelRU/" + value + "/")
+        .then((res) => {
+          this.formrule = res.data.detail.template;
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
   },
+  watch: {},
 };
 </script>
 

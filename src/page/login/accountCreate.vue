@@ -35,26 +35,23 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 export default {
   data() {
     var checkusername = (rule, value, callback) => {
-      if(value==="")
-      callback(new Error("请输入用户名"))
-       this.$axios
+      if (value === "") callback(new Error("请输入用户名"));
+      this.$axios
         .get("/userList")
         .then((response) => {
-          for (let i =0 ;i<response.data.results.length;i++)
-            if(value===response.data.results[i].account_number)
-            {
-              callback(new Error("该名称已占用"))
+          for (let i = 0; i < response.data.results.length; i++)
+            if (value === response.data.results[i].account_number) {
+              callback(new Error("该名称已占用"));
             }
-            callback();
+          callback();
         })
         .catch((error) => {
-          callback(new Error(error));;
-        }); 
-        
+          callback(new Error(error));
+        });
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -89,26 +86,42 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['changeLogin']),
+    ...mapMutations(["changeLogin", "changeUser"]),
     submitForm(formName) {
-      let _self=this
-      let tmpsummit={"username":_self.Form.username,"password":_self.Form.password}
-      console.log(tmpsummit)
+      let _self = this;
+      let tmpsummit = {
+        username: _self.Form.username,
+        password: _self.Form.password,
+      };
+      console.log(tmpsummit);
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/userCreate/',tmpsummit)
-          .then(res=>{
-            this.$axios.post('/api-token-auth/',tmpsummit)
-            .then(res=>{
-              _self.changeLogin({Authorization: res.data.token})
-               _self.$axios.defaults.headers.Authorization='Token '+res.data.token
-              _self.$router.push('/home')
-            })
-            })
-        } 
-        else {
+          this.$axios.post("/userCreate/", tmpsummit).then((res) => {
+            this.$axios.post("/api-token-auth/", tmpsummit).then((res) => {
+              _self.changeLogin({ Authorization: res.data.token });
+              _self.$axios.defaults.headers.Authorization =
+                "Token " + res.data.token;
+              let usertmp = {};
+              this.$axios
+                .get("/userInfoRU/")
+                .then((res) => {
+                  let sex = res.data.sex == "male" ? "男" : "女";
+                  usertmp.name = res.data.name;
+                  usertmp.office = res.data.office;
+                  usertmp.phoneNumber = res.data.phoneNumber;
+                  usertmp.sex = sex;
+                  usertmp.title = res.data.title;
+                  _now.changeUser(usertmp);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+              _self.$router.push("/home");
+            });
+          });
+        } else {
           alert("请重新填写表单");
-          console.log("as")
+          console.log("as");
           return false;
         }
       });

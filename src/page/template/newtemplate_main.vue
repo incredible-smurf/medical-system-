@@ -1,7 +1,6 @@
 <template>
   <el-main>
       <NewForm/>
-      <!-- <trys/> -->
   </el-main>
 </template>
 
