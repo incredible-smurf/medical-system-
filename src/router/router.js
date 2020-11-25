@@ -27,8 +27,8 @@ const userprofile = r => require.ensure([], () => r(require('../page/userProfile
 const changepassword = r => require.ensure([], () => r(require('../page/userProfile/changepasswd')), 'changepasswd')
 //大体
 const createdati = r => require.ensure([], () => r(require('../page/dati/create')), 'createdati')
-const datiquery=r => require.ensure([], () => r(require('../page/dati/query')), 'query')
-
+const datiquery = r => require.ensure([], () => r(require('../page/dati/query')), 'query')
+const showDatiDetail = r => require.ensure([], () => r(require('../page/dati/showDatiDetail')), 'showDatiDetail')
 
 const routes = [
     //地址为空时跳转home页面
@@ -86,7 +86,14 @@ const routes = [
         children: [{
             path: 'create',
             component: createdati
-        },{path:'query',component:datiquery}]
+        },
+        {
+            path: 'query', component: datiquery
+        },
+        {
+            path: 'showdatidetail', component: showDatiDetail
+        }
+        ]
     },
     {
         path: '/template',
@@ -107,6 +114,7 @@ const routes = [
     {
         path: '/userpro',
         component: usermain,
+
         children: [
             {
                 path: 'userprofile',

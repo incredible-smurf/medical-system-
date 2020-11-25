@@ -1,9 +1,9 @@
 <template>
   <el-main>
     <el-table :data="templatelist" style="width: 100%">
-      <el-table-column label="模板ID" prop="value"> </el-table-column>
-      <el-table-column label="模板名" prop="label"> </el-table-column>
-      <el-table-column label="模板类型" prop="cat"> </el-table-column>
+      <el-table-column label="大体报告ID" prop="id"> </el-table-column>
+      <el-table-column label="病人姓名" prop="label"> </el-table-column>
+      <el-table-column label="医生姓名" prop="doc"> </el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
@@ -42,20 +42,13 @@ export default {
     this.$axios
       .get("/grossReportLC/")
       .then((res) => {
-          console.log(res)
+        //console.log(res);
         this.totalsize = res.data.count;
         for (let i in res.data.results) {
           let tmp = {};
-          tmp.value = res.data.results[i].id;
-          tmp.label = res.data.results[i].name;
-
-          if (res.data.results[i].category === "Gross") tmp.cat = "大体模板";
-          else if (res.data.results[i].category === "Diagnosis")
-            tmp.cat = "诊断报告模板";
-          else if (res.data.results[i].category === "Materials")
-            tmp.cat = "取材模板";
-          else if (res.data.results[i].category === "Biopsy")
-            tmp.cat = "切片模板";
+          tmp.id = res.data.results[i].id;
+          tmp.label = res.data.results[i].patient;
+          tmp.doc = res.data.results[i].doctor_name;
           this.templatelist.push(tmp);
         }
       })
@@ -70,29 +63,22 @@ export default {
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
-        search: this.$store.state.userprofile.name,
+        //search: this.$store.state.userprofile.name,
       };
       this.$axios.defaults.headers.Authorization =
         "Token " + this.$store.state.Authorization;
       this.$axios
-        .get("/grossDiagnosisModelList/", { params: parmas_send })
+        .get("/grossReportLC/", { params: parmas_send })
         .then((res) => {
           this.templatelist = [];
-          console.log(res);
+          this.totalsize = res.data.count;
           for (let i in res.data.results) {
             let tmp = {};
-            tmp.value = res.data.results[i].id;
-            tmp.label = res.data.results[i].name;
-            if (res.data.results[i].category === "Gross") tmp.cat = "大体模板";
-            else if (res.data.results[i].category === "Diagnosis")
-              tmp.cat = "诊断报告模板";
-            else if (res.data.results[i].category === "Materials")
-              tmp.cat = "取材模板";
-            else if (res.data.results[i].category === "Biopsy")
-              tmp.cat = "切片模板";
+            tmp.id = res.data.results[i].id;
+            tmp.label = res.data.results[i].patient;
+            tmp.doc = res.data.results[i].doctor_name;
             this.templatelist.push(tmp);
           }
-          this.totalsize = res.data.count;
         })
         .catch((err) => {
           alert(err);
@@ -103,26 +89,20 @@ export default {
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
-        search: this.$store.state.userprofile.name,
+        //search: this.$store.state.userprofile.name,
       };
 
       this.$axios.defaults.headers.Authorization =
         "Token " + this.$store.state.Authorization;
       this.$axios
-        .get("/grossDiagnosisModelList/", { params: parmas_send })
+        .get("/grossReportLC/", { params: parmas_send })
         .then((res) => {
           this.templatelist = [];
           for (let i in res.data.results) {
             let tmp = {};
-            tmp.value = res.data.results[i].id;
-            tmp.label = res.data.results[i].name;
-            if (res.data.results[i].category === "Gross") tmp.cat = "大体模板";
-            else if (res.data.results[i].category === "Diagnosis")
-              tmp.cat = "诊断报告模板";
-            else if (res.data.results[i].category === "Materials")
-              tmp.cat = "取材模板";
-            else if (res.data.results[i].category === "Biopsy")
-              tmp.cat = "切片模板";
+            tmp.id = res.data.results[i].id;
+            tmp.label = res.data.results[i].patient;
+            tmp.doc = res.data.results[i].doctor_name;
             this.templatelist.push(tmp);
           }
           this.totalsize = res.data.count;
@@ -132,10 +112,9 @@ export default {
         });
     },
     handleEdit(index, row) {
-      
       this.$router.push({
-        path: "/template/showtemplatedetail",
-        query: { id: row.value },
+        path: "/dati/showdatidetail",
+        query: { id: row.id },
       });
     },
   },
