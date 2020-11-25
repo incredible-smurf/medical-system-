@@ -40,10 +40,9 @@ export default {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
     this.$axios
-      .get("/grossDiagnosisModelList/", {
-        search: this.$store.state.userprofile.name,
-      })
+      .get("/grossReportLC/")
       .then((res) => {
+          console.log(res)
         this.totalsize = res.data.count;
         for (let i in res.data.results) {
           let tmp = {};
