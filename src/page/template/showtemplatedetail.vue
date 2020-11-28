@@ -48,7 +48,7 @@ export default {
         else if (this.catgory === "Materials") this.catgory = "取材模板";
         else if (this.catgory === "Biopsy") this.catgory = "切片模板";
 
-        this.doc_name = res.data.doctor_name;
+        this.doc_name = res.data.doctorName;
         this.doc_id = res.data.doctor;
         this.name = res.data.name;
       })

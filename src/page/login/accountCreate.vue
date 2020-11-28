@@ -45,10 +45,11 @@ export default {
       this.$axios
         .get("/userList")
         .then((response) => {
+          //console.log(response);
           for (let i = 0; i < response.data.results.length; i++)
-            if (value === response.data.results[i].account_number) {
-              callback(new Error("该名称已占用"));
-            }
+          if (value === response.data.results[i].account_number) {
+            callback(new Error("该名称已占用"));
+          }
           callback();
         })
         .catch((error) => {
@@ -98,7 +99,7 @@ export default {
         username: _self.Form.username,
         password: _self.Form.password,
       };
-      console.log(tmpsummit);
+      //console.log(tmpsummit);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //创建用户
@@ -118,7 +119,7 @@ export default {
                   usertmp.phoneNumber = res.data.phoneNumber;
                   usertmp.sex = sex;
                   usertmp.title = res.data.title;
-                  _now.changeUser(usertmp);
+                  this.changeUser(usertmp);
                 })
                 .catch((err) => {
                   alert(err);

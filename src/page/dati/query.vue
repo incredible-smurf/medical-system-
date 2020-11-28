@@ -53,7 +53,7 @@ export default {
           let tmp = {};
           tmp.id = res.data.results[i].id;
           tmp.label = res.data.results[i].patient;
-          tmp.doc = res.data.results[i].doctor_name;
+          tmp.doc = res.data.results[i].doctorName;
           this.templatelist.push(tmp);
         }
       })
@@ -82,7 +82,7 @@ export default {
             let tmp = {};
             tmp.id = res.data.results[i].id;
             tmp.label = res.data.results[i].patient;
-            tmp.doc = res.data.results[i].doctor_name;
+            tmp.doc = res.data.results[i].doctorName;
             this.templatelist.push(tmp);
           }
         })
@@ -110,7 +110,7 @@ export default {
             let tmp = {};
             tmp.id = res.data.results[i].id;
             tmp.label = res.data.results[i].patient;
-            tmp.doc = res.data.results[i].doctor_name;
+            tmp.doc = res.data.results[i].doctorName;
             this.templatelist.push(tmp);
           }
           this.totalsize = res.data.count;

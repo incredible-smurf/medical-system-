@@ -36,7 +36,7 @@ export default {
       .then((res) => {
         console.log(res);
         this.id = res.data.id;
-        this.doctor_name = res.data.doctor_name;
+        this.doctor_name = res.data.doctorName;
         this.document_id = res.data.medicalFile;
         this.patient_name = res.data.patient;
         this.formrule = res.data.detail;
