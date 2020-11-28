@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- HOME界面 亟待美化 -->
     <el-container>
       <el-header>医疗管理系统</el-header>
     </el-container>

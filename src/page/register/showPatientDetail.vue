@@ -1,5 +1,6 @@
 <template>
   <el-main>
+    <!-- 查看或修改病人信息 显示病历档案表格-->
     <el-row>
       <el-col><h1>详情查看</h1></el-col>
     </el-row>
@@ -10,6 +11,7 @@
       :label-position="labelPosition"
       :rules="rules"
     >
+      <!-- 详情信息 -->
       <el-row :gutter="20">
         <el-col :span="8" :offset="2">
           <el-form-item label="病人姓名" prop="name"
@@ -47,20 +49,23 @@
       </el-row>
       <el-row type="flex" class="buttonquery" justify="center" :gutter="10">
         <el-col :span="6">
+          <!-- 提交按钮 -->
           <el-button @click="refresh('patientcreate')">保存修改</el-button>
         </el-col>
       </el-row>
     </el-form>
+    <!-- 病理档案表格获取 -->
     <detailtable :queryid="this.queryid"></detailtable>
   </el-main>
 </template>
 
 <script>
-import detailtable from './components/detailTable'
+import detailtable from "./components/detailTable";
 
 export default {
-  components:{detailtable},
+  components: { detailtable },
   data() {
+    //更改病人信息部分 有效性检查 同创建
     let checkname = (rule, value, callback) => {
       if (value == "") callback(new Error("姓名不能为空"));
       else callback();
@@ -73,9 +78,12 @@ export default {
       callback();
     };
     return {
-      labelPosition: 'right',
+      labelPosition: "right",
+      //查询的病人ID号
       queryid: this.$route.query.id,
+      //详情
       form: { name: "", sex: "", phoneNumber: "", address: "" },
+      //表单提交规则
       rules: {
         name: [{ validator: checkname, trigger: "blur" }],
         sex: [{ required: true, message: "请选择病人性别", trigger: "change" }],
@@ -83,6 +91,7 @@ export default {
       },
     };
   },
+  //创建前请求病人信息
   beforeCreate() {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
@@ -97,6 +106,7 @@ export default {
       });
   },
   methods: {
+    //更新数据 保存更改
     refresh(table) {
       let _this = this;
       this.$refs[table].validate((valid) => {

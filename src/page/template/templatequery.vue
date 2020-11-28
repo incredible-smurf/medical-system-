@@ -1,5 +1,6 @@
 <template>
   <el-main>
+    <!-- 模板展示表格 -->
     <el-table :data="templatelist" style="width: 100%">
       <el-table-column label="模板ID" prop="value"> </el-table-column>
       <el-table-column label="模板名" prop="label"> </el-table-column>
@@ -12,6 +13,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页控制 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -36,6 +38,7 @@ export default {
       pageSize: 10,
     };
   },
+  //请求第一页
   beforeCreate() {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
@@ -65,8 +68,10 @@ export default {
       });
   },
   methods: {
+    //控制每页显示条数
     handleSizeChange(val) {
       this.pageSize = val;
+      //位移
 
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
@@ -99,6 +104,7 @@ export default {
           alert(err);
         });
     },
+    //控制页码
     handleCurrentChange(val) {
       this.currentPage = val;
       let parmas_send = {
@@ -132,14 +138,15 @@ export default {
           alert(err);
         });
     },
+    //跳转详情页
     handleEdit(index, row) {
-      
       this.$router.push({
         path: "/template/showtemplatedetail",
         query: { id: row.value },
       });
     },
   },
+
 };
 </script>
 

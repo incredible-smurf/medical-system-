@@ -6,6 +6,7 @@ export default new Vuex.Store({////暴露Store对象
     state: {
         // 存储token
         Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
+        //存储当前登录的用户信息
         userprofile:localStorage.getItem('userprofile') ? localStorage.getItem('userprofile') : ''
         
       },

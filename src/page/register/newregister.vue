@@ -1,6 +1,7 @@
 <template>
   <!-- 新建病人信息 -->
   <el-main>
+    <!-- 信息表单 -->
     <el-form ref="patientcreate" :model="form" label-width="80px" :label-position="labelPosition" :rules="rules" >
       <el-row :gutter="20">
         <el-col :span="8" :offset="2">
@@ -52,12 +53,14 @@
 import qs from 'qs'
 export default {
   data() {
+    //检查姓名是否为空
     let checkname=(rule,value,callback)=>{
       if(value=='')
       callback(new Error("姓名不能为空"))
       else
       callback()
     }
+    //检查电话号码是否只是数字 (可以不填)
     let checkPhone=(rule,value,callback)=>
     {
       for(let i =0;i<value.length;i++)
@@ -71,7 +74,9 @@ export default {
 
     return {
       labelPosition: 'right',
+      //提交表单
       form: { name: "", sex: "", phoneNumber: "", address: "" },
+      //检查规则
       rules:{
         name:[{validator:checkname, trigger: 'blur'}],
         sex:[{required:true,message: '请选择病人性别', trigger: 'change'}],
@@ -80,6 +85,7 @@ export default {
     };
   },
   methods: {
+    //创建病人信息提交
     queryforcreate(table) {
       let _this=this
       this.$refs[table].validate((valid)=>{

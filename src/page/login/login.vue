@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <!-- 登陆管理界面 -->
     <el-form
       ref="form"
       :rules="rules"
@@ -22,7 +23,8 @@
     </el-form>
   </div>
 </template>
-    <script>
+<script>
+/* 引入mapMutations储存登录状态 */
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -31,6 +33,7 @@ export default {
         username: "",
         password: "",
       },
+      //用户名密码输入规则不能为空
       rules: {
         username: [
           { required: true, message: "用户名不能为空", trigger: "blur" },
@@ -42,23 +45,28 @@ export default {
     };
   },
   methods: {
+    //引入vuex数据修改的方法
     ...mapMutations(["changeLogin", "changeUser"]),
+    //形成用户名密码表单
     submitForm(formName) {
       let _now = this;
       let tmpsummit = {
         username: this.form.username,
         password: this.form.password,
       };
+      //有效之后发送
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
             .post("/api-token-auth/", tmpsummit)
             .then((res) => {
+              //获取token 并加在http头上 用于登录验证
               _now.changeLogin({ Authorization: res.data.token });
               _now.$router.push("/home");
               _now.$axios.defaults.headers.Authorization =
                 "Token " + res.data.token;
-              let usertmp={}
+              let usertmp = {};
+              //获取用户信息并保存
               this.$axios
                 .get("/userInfoRU/")
                 .then((res) => {
@@ -68,7 +76,7 @@ export default {
                   usertmp.phoneNumber = res.data.phoneNumber;
                   usertmp.sex = sex;
                   usertmp.title = res.data.title;
-                  _now.changeUser(usertmp)
+                  _now.changeUser(usertmp);
                 })
                 .catch((err) => {
                   alert(err);
@@ -83,6 +91,7 @@ export default {
         }
       });
     },
+    //注册界面跳转
     switchToNewAc() {
       this.$router.push("/createaccount");
     },

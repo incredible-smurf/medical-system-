@@ -1,15 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
 
-
-
-
-
 const instance=axios.create({
   baseURL:'http://127.0.0.1:8000/', //这是基础url
-  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+  headers: {'Content-Type': 'application/x-www-form-urlencoded'},//解决无法跨域请求的问题 
   transformRequest: [function (data) {
-    // Do whatever you want to transform the data
+    //data 格式化
     let ret = ''
     for (let it in data) {
       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'

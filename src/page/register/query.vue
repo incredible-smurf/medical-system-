@@ -1,6 +1,8 @@
 <template>
+  <!-- 详情查询界面 -->
   <el-main>
     <el-row :gutter="5">
+      <!--  搜索框 按姓名搜索 -->
       <el-col :span="15"
         ><el-input v-model="search" placeholder="请输入搜索姓名"></el-input
       ></el-col>
@@ -10,6 +12,7 @@
         ></el-col
       >
     </el-row>
+    <!-- 表格主体 -->
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label="病人ID" prop="id"> </el-table-column>
       <el-table-column label="病人姓名" prop="name"> </el-table-column>
@@ -22,6 +25,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 控制翻页 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -37,6 +41,7 @@
 
 <script>
 export default {
+  //请求第一页
   beforeCreate() {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
@@ -70,7 +75,9 @@ export default {
     };
   },
   methods: {
+    //搜过管理
     handleSearch() {
+      //开启搜索模式
       this.searchOn = true;
       this.$axios.defaults.headers.Authorization =
         "Token " + this.$store.state.Authorization;
@@ -79,9 +86,10 @@ export default {
           params: {
             offset: (this.currentPage - 1) * this.pageSize,
             limit: this.pageSize,
-            search: this.search,
+            search: this.search,//搜索变量
           },
         })
+        //按搜索模式请求内容
         .then((res) => {
           this.tableData = [];
           for (let item in res.data.results) {
@@ -95,8 +103,10 @@ export default {
           alert(err);
         });
     },
+    //显示内容数量改变处理
     handleSizeChange(val) {
       this.pageSize = val;
+      //偏移计算
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
@@ -104,10 +114,12 @@ export default {
       if (this.searchOn) parmas_send.search = this.search;
       this.$axios.defaults.headers.Authorization =
         "Token " + this.$store.state.Authorization;
+      //请求！
       this.$axios
         .get("/patientList/", {
           params: parmas_send,
         })
+      //请求到了！
         .then((res) => {
           this.tableData = [];
           for (let item in res.data.results) {
@@ -117,6 +129,7 @@ export default {
           }
           this.totalsize = res.data.count;
         })
+      //出错了！
         .catch((err) => {
           alert(err);
         });
@@ -124,6 +137,7 @@ export default {
     // 当前页
     handleCurrentChange(val) {
       this.currentPage = val;
+      //计算偏移 同上
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
@@ -148,6 +162,7 @@ export default {
           alert(err);
         });
     },
+    //详情界面查看
     handleEdit(index, row) {
       this.$router.push({
         path: "/register/showpatientdetail",
@@ -158,6 +173,7 @@ export default {
   watch: {
     search: {
       handler() {
+        //若搜索内容为空 关闭搜索模式 按正常模式显示
         if (this.search === "") this.searchOn = false;
       },
     },

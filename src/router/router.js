@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+//路由管理和组件抽取
+//该部分需要随着新界面增加不断修改
 Vue.use(VueRouter)
+
+//home界面组件
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 
+//大体工作站组件
 const dati = r => require.ensure([], () => r(require('../page/dati/dati')), 'dati')
 
 
@@ -59,6 +65,7 @@ const routes = [
         component: registerAside,
         children: [
             {
+                //新建
                 path: 'newregister',
                 component: newregister,
                 children: [
@@ -69,10 +76,12 @@ const routes = [
                 ]
             },
             {
+                //查询
                 path: 'query',
                 component: registerquery
             },
             {
+                //详情
                 path: 'showpatientdetail',
                 component: showPatientDetail
             }
@@ -81,13 +90,16 @@ const routes = [
 
     },
     {
+        //大体工作站
         path: '/dati',
         component: dati,
         children: [{
+            //创建
             path: 'create',
             component: createdati
         },
         {
+            //查询
             path: 'query', component: datiquery
         },
         {
@@ -96,31 +108,38 @@ const routes = [
         ]
     },
     {
+        //模板管理工作站
         path: '/template',
         component: templateAside,
         children: [{
+            //创建
             path: 'templatemain',
             component: templatemain
         },
         {
+            //查询
             path: 'templatequery',
             component: templatequery
         },
         {
+            //详情页
             path: "showtemplatedetail",
             component: showtemplatedetail
         }]
     },
     {
+        //用户界面
         path: '/userpro',
         component: usermain,
 
         children: [
             {
+                //用户信息
                 path: 'userprofile',
                 component: userprofile
             },
             {
+                //更改密码
                 path: 'changepassword',
                 component: changepassword
             }
@@ -130,11 +149,13 @@ const routes = [
 ]
 const router = new VueRouter({
     routes,
-    mode: 'history',
+    mode: 'history',//浏览器可以记录历史记录
 })
 
 
 //登录控制
+/* 如果没有登录token则自动跳转到login界面 
+这是一个全局的钩子函数 */
 import storeitem from "../store/store"
 router.beforeEach((to, from, next) => {
     if (to.path === '/login' || to.path === '/createaccount') {

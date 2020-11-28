@@ -1,4 +1,5 @@
 <template>
+<!-- 登记工作站侧边栏 -->
 <el-container>
   <el-aside width="250px" > 
       <el-menu default-active="1" @select="handleSelect">
@@ -19,6 +20,7 @@ export default {
     data(){
         return {}
     },
+    //简单的路由跳转
     methods:{
         handleSelect(key, keyPath){
             keyPath=0

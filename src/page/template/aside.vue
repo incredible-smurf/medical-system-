@@ -1,4 +1,5 @@
 <template>
+  <!-- 模板管理系统侧边栏 -->
   <el-container>
     <el-aside width="250px">
       <el-menu default-active="1" @select="handleSelect">
@@ -17,6 +18,7 @@
 <script>
 export default {
   methods: {
+    //路由控制
     handleSelect(key, keyPath) {
       switch (key) {
         case "1":

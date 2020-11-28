@@ -1,15 +1,14 @@
 <template>
+<!-- 头部导航栏 -->
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" active-text-color='#00CCFF' @select="handleSelect">
   <el-menu-item index="1">首页</el-menu-item>
   <el-menu-item index="2">登记工作站</el-menu-item>
   <el-menu-item index="3">大体工作站</el-menu-item>
-  <el-menu-item index="4"><router-link to="/register">包埋工作站</router-link></el-menu-item>
-  <el-menu-item index="5"><router-link to="/register">制片工作站</router-link></el-menu-item>
-  <el-menu-item index="6"><router-link to="/register">主诊工作站</router-link></el-menu-item>
-
+  <el-menu-item index="4">包埋工作站</el-menu-item>
+  <el-menu-item index="5">制片工作站</el-menu-item>
+  <el-menu-item index="6">主诊工作站</el-menu-item>
   <el-menu-item index="8">模板管理系统</el-menu-item>
   <el-menu-item index="9" style="float:right">用户界面</el-menu-item>
-
 
 </el-menu>
 </template>
@@ -24,6 +23,7 @@ export default {
     switchtore () {
       this.$router.push('/home')
     },
+    //路由跳转管理
     handleSelect(key, keyPath) {
         switch(key)
         {

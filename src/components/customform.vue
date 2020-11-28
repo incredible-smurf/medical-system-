@@ -1,10 +1,12 @@
 <template>
   <div>
+    <!-- 模板管理系统步骤显示 -->
     <el-steps :active="active" finish-status="success">
       <el-step title="建立新模板"></el-step>
       <el-step title="预览模板"></el-step>
       <el-step title="确认模板类型"></el-step>
     </el-steps>
+    <!-- 创建模板内容 -->
     <div v-if="index2 == 0">
       <el-card
         class="box-card"
@@ -212,6 +214,7 @@
         <el-button type="primary" @click="tijiao()">预览发布</el-button>
       </div>
     </div>
+    <!-- 模板预览 -->
     <div v-if="index2 == 1">
       <div
         style="width: 80%; margin-left: 10%; margin-top: 10px; font-size: 28px"
@@ -221,6 +224,7 @@
         style="width: 80%; margin-left: 10%; margin-top: 10px; font-size: 16px"
         v-html="miaoshu"
       ></div>
+      <!-- 生成模板 -->
       <form-create
         v-model="yulanform"
         :rule="formrule"
@@ -234,13 +238,14 @@
         <el-button type="primary" @click="changeindex(10)">立即发布</el-button>
       </div>
     </div>
+    <!-- 确认模板类别并提交 -->
     <div v-if="index2 === 2">
       <el-form :model="submit" :rules="submitrules" ref="Form">
         <el-form-item label="请输入模板名称" prop="name"
           ><el-input v-model="submit.name" autocomplete="off"></el-input
         ></el-form-item>
-        <el-form-item label="请选择模板类型" prop="category" >
-          <el-radio-group v-model="submit.category" >
+        <el-form-item label="请选择模板类型" prop="category">
+          <el-radio-group v-model="submit.category">
             <el-radio label="Gross">大体</el-radio>
             <el-radio label="Diagnosis">诊断</el-radio>
             <el-radio label="Materials">取材</el-radio>
@@ -257,16 +262,18 @@
 </template>
 
 <script>
-import qs from 'qs'
+import qs from "qs";
 export default {
   name: "NewForm",
   data() {
+    //是否有名字
     let checkname = (rule, value, callback) => {
       if (!value) callback(new Error("请输入模板名"));
       else callback();
     };
     return {
       active: 0,
+      //管理当前在第几步
       index2: 0,
       title: "",
       miaoshu: "",
@@ -324,22 +331,24 @@ export default {
       formrule: [],
       //表单实例对象
       yulanform: {},
-
+      //不显示提交按钮
       option: {
         submitBtn: {
           show: false,
         },
       },
-
+      //提交内容打包
       submit: {
         category: "",
         name: "",
         detail: "",
       },
-
+      //模板提交前check检查
       submitrules: {
         name: [{ validator: checkname, trigger: "blur" }],
-        category: [{ required: true, message: "请选择一个模板类型", trigger: 'change' }],
+        category: [//必选
+          { required: true, message: "请选择一个模板类型", trigger: "change" },
+        ],
       },
     };
   },
@@ -393,7 +402,7 @@ export default {
     deleteselect(i) {
       this.$set(this.selectnum, i, this.selectnum[i] - 1);
     },
-
+    //调试用函数
     tijiao() {
       this.active = 1;
       console.log(this.inputBT, "inputBT");
@@ -471,6 +480,7 @@ export default {
     onSubmit1(formData) {
       alert(JSON.stringify(formData));
     },
+    //调整步骤，包含前进回退
     changeindex2(msg) {
       this.index2 = msg;
       this.active = 0;
@@ -484,22 +494,29 @@ export default {
       this.active = 1;
       this.index2 = 1;
     },
+    //提交
     submitForm(msg) {
+      //检查有效性之后才能提交
       this.$refs[msg].validate((valid) => {
         if (valid) {
-          let tmp={}
-          tmp.name=this.submit.name
-          tmp.category=this.submit.category
-          let detail={template:this.formrule}
-          tmp.detail=JSON.stringify(detail)
-          this.$axios.defaults.headers.Authorization='Token '+this.$store.state.Authorization
+          let tmp = {};
+          tmp.name = this.submit.name;
+          tmp.category = this.submit.category;
+          let detail = { template: this.formrule };
+          tmp.detail = JSON.stringify(detail);
+          this.$axios.defaults.headers.Authorization =
+            "Token " + this.$store.state.Authorization;
           //console.log(this.$axios.defaults)
           //console.log('Token '+this.$store.state.Authorization)
-           this.$axios.post('/grossDiagnosisModelCreat/',tmp)
-          .then(res=> {alert("创建成功")})
-          .catch(err=>{console.log(err)}) 
+          this.$axios
+            .post("/grossDiagnosisModelCreat/", tmp)
+            .then((res) => {
+              alert("创建成功");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
-          
         }
       });
     },
@@ -507,7 +524,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .radio .el-input__inner {
   width: 220px;
   border-top-width: 0px;

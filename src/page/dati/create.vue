@@ -1,5 +1,7 @@
 <template>
+<!-- 大体报告创建 -->
   <el-main>
+    <!-- 大体报告表单域 -->
     <el-form
       ref="daticreate"
       :model="form"
@@ -26,6 +28,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- 根据选取的模板生成表单 -->
       <form-create
         v-if="pageindex == 1"
         v-model="formContent"
@@ -40,6 +43,7 @@
         :gutter="10"
         v-if="pageindex == 1"
       >
+      <!-- 提交 -->
         <el-col :span="6">
           <el-button @click="daticreate('daticreate')">新建大体报告</el-button>
         </el-col>
@@ -51,6 +55,7 @@
 <script>
 import qs from "qs";
 export default {
+  //请求模板列表处理数据
   beforeCreate() {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
@@ -72,6 +77,7 @@ export default {
       });
   },
   data() {
+    
     let idisok = (rule, value, callback) => {
       if (value == "") callback(new Error("请输入病理档案ID"));
       for (let i = 0; i < value.length; i++) {
@@ -82,18 +88,20 @@ export default {
     };
     return {
       labelPosition: "left",
+      /* 表单内容 */
       form: {
         detail: {},
         medicalFile: "",
         template: "",
       },
+      //检查表单合法性
       rules: {
         medicalFile: [{ required: true, validator: idisok, trigger: "blur" }],
         template: [
           { required: true, message: "请选择一个模板", trigger: "change" },
         ],
       },
-
+      //模板列表
       templatelist: [],
 
       formrule: [],
@@ -107,6 +115,7 @@ export default {
     };
   },
   methods: {
+    //post大体报告
     daticreate(table) {
       let _this = this;
       let tmp = {};
@@ -127,6 +136,7 @@ export default {
         }
       });
     },
+    //根据下拉框内容请求模板
     handleChange(value) {
       this.$axios.defaults.headers.Authorization =
         "Token " + this.$store.state.Authorization;

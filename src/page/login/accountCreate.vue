@@ -35,9 +35,11 @@
 </template>
 
 <script>
+/* 引入mapMutations储存登录状态 */
 import { mapMutations } from "vuex";
 export default {
   data() {
+    //检查是否用户名占用或用户名为空
     var checkusername = (rule, value, callback) => {
       if (value === "") callback(new Error("请输入用户名"));
       this.$axios
@@ -53,6 +55,7 @@ export default {
           callback(new Error(error));
         });
     };
+    //检查密码是否为空
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -63,6 +66,7 @@ export default {
         callback();
       }
     };
+    //检查密码一致性
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
@@ -87,6 +91,7 @@ export default {
   },
   methods: {
     ...mapMutations(["changeLogin", "changeUser"]),
+    //提交给搓成
     submitForm(formName) {
       let _self = this;
       let tmpsummit = {
@@ -96,7 +101,9 @@ export default {
       console.log(tmpsummit);
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //创建用户
           this.$axios.post("/userCreate/", tmpsummit).then((res) => {
+            //使用该用户登录 获取其token和用户信息并保存
             this.$axios.post("/api-token-auth/", tmpsummit).then((res) => {
               _self.changeLogin({ Authorization: res.data.token });
               _self.$axios.defaults.headers.Authorization =
@@ -120,12 +127,13 @@ export default {
             });
           });
         } else {
-          alert("请重新填写表单");
+          alert("存在错误，请重新填写");
           console.log("as");
           return false;
         }
       });
     },
+    //重置表单
     resetForm(formName) {
       if (this.$refs[formName] !== undefined) {
         this.$refs[formName].resetFields();

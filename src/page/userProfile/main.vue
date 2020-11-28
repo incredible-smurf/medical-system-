@@ -1,5 +1,6 @@
 <template>
 <el-container>
+  <!-- 用户控制界面侧边栏 -->
   <el-aside width="250px" > 
       <el-menu default-active="1" @select="handleSelect">
         <el-menu-item index="1">

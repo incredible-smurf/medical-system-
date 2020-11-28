@@ -1,5 +1,7 @@
 <template>
   <el-main>
+      <!-- 用户详情界面的查看和修改 -->
+      <!-- 详情展示 -->
       <el-form :model="submitpro" label-width="80px">
           <el-form-item label="姓名：">
               <el-input v-model="submitpro.name"></el-input>
@@ -18,6 +20,7 @@
               <el-input v-model="submitpro.phoneNumber"></el-input>
           </el-form-item>
           <el-form-item>
+              <!-- 修改提交 -->
               <el-button type="primary" @click="onSubmit">保存更改</el-button>
           </el-form-item>
       </el-form>
@@ -30,6 +33,7 @@ export default {
         return {
             profile:{},
             sex:'未定义',
+            //数据具体内容
             submitpro:{
                 name:'',
                 office:'',
@@ -40,6 +44,7 @@ export default {
         }
     }
 ,created(){
+    //获取用户信息
     let _this=this
     this.$axios.defaults.headers.Authorization='Token '+this.$store.state.Authorization
     this.$axios.get('/userInfoRU/')
@@ -54,6 +59,7 @@ export default {
     }).catch(err=>{alert(err)})
 },
 methods:{
+    //提交修改后的用户信息 无有效性检查
     onSubmit(){
         let tmp={}
         tmp.name=this.submitpro.name

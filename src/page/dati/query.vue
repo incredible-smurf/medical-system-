@@ -1,5 +1,6 @@
 <template>
   <el-main>
+    <!-- 大体报告查看 -->
     <el-table :data="templatelist" style="width: 100%">
       <el-table-column label="大体报告ID" prop="id"> </el-table-column>
       <el-table-column label="病人姓名" prop="label"> </el-table-column>
@@ -12,6 +13,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页符 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -30,12 +32,15 @@ export default {
   data() {
     return {
       templatelist: [],
+      //数据总量
       totalsize: 0,
+      //第几页
       currentPage: 1,
       // 每页多少条
       pageSize: 10,
     };
   },
+  //请求第一页数据
   beforeCreate() {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
@@ -57,9 +62,10 @@ export default {
       });
   },
   methods: {
+    //翻页控制
     handleSizeChange(val) {
+      //计算位移
       this.pageSize = val;
-
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
@@ -84,7 +90,9 @@ export default {
           alert(err);
         });
     },
+    //单页显示数量控制
     handleCurrentChange(val) {
+      //计算位移
       this.currentPage = val;
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
@@ -111,6 +119,7 @@ export default {
           alert(err);
         });
     },
+    //跳转详情界面
     handleEdit(index, row) {
       this.$router.push({
         path: "/dati/showdatidetail",
