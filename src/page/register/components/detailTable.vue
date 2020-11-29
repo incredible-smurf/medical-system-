@@ -43,6 +43,7 @@ export default {
         .post("/medicalFileLC/", { patient: this.queryid })
         .then((res) => {
           alert("创建成功");
+          this.$router.go(0);
         })
         .catch((err) => {
           alert(err);
