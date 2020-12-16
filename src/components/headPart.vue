@@ -6,7 +6,8 @@
   <el-menu-item index="3">大体工作站</el-menu-item>
   <el-menu-item index="4">包埋工作站</el-menu-item>
   <el-menu-item index="5">制片工作站</el-menu-item>
-  <el-menu-item index="6">主诊工作站</el-menu-item>
+  <el-menu-item index="6">初诊工作站</el-menu-item>
+  <el-menu-item index="7">主诊工作站</el-menu-item>
   <el-menu-item index="8">模板管理系统</el-menu-item>
   <el-menu-item index="9" style="float:right">用户界面</el-menu-item>
 
@@ -36,6 +37,7 @@ export default {
           case '3':
             this.$router.push('/dati/create')
             break
+          
           case '8':
             this.$router.push('/template/templatemain')
             break

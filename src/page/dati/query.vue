@@ -7,9 +7,13 @@
       <el-table-column label="医生姓名" prop="doc"> </el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
+          <el-button size="mini" @click="handleVerify(scope.$index, scope.row)"
+            >确认取材部位</el-button
+          >
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >查看详情</el-button
           >
+          
         </template>
       </el-table-column>
     </el-table>
@@ -126,6 +130,12 @@ export default {
         query: { id: row.id },
       });
     },
+    handleVerify(index,row){
+      this.$router.push({
+        path: "/dati/confirmsampling",
+        query: { id: row.id },
+      });
+    }
   },
 };
 </script>

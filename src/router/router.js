@@ -35,6 +35,10 @@ const changepassword = r => require.ensure([], () => r(require('../page/userProf
 const createdati = r => require.ensure([], () => r(require('../page/dati/create')), 'createdati')
 const datiquery = r => require.ensure([], () => r(require('../page/dati/query')), 'query')
 const showDatiDetail = r => require.ensure([], () => r(require('../page/dati/showDatiDetail')), 'showDatiDetail')
+const confirmSampling=r => require.ensure([], () => r(require('../page/dati/confirmSampling')), 'confirmSampling')
+
+//初诊工作站
+
 
 const routes = [
     //地址为空时跳转home页面
@@ -104,6 +108,9 @@ const routes = [
         },
         {
             path: 'showdatidetail', component: showDatiDetail
+        },
+        {
+            path:'confirmsampling',component:confirmSampling
         }
         ]
     },
