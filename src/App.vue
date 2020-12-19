@@ -3,7 +3,7 @@
     <!-- 入口模块 -->
     <headPart v-if="isLogging" />
     <!-- 展示子模块详情 一般为侧边栏-->
-    <router-view />
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 

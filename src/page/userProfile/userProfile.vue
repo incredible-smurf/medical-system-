@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
     data(){
         return {
@@ -59,6 +60,7 @@ export default {
     }).catch(err=>{alert(err)})
 },
 methods:{
+    ...mapMutations(["changeLogin", "changeUser"]),
     //提交修改后的用户信息 无有效性检查
     onSubmit(){
         let tmp={}
@@ -69,9 +71,11 @@ methods:{
         tmp.title=this.submitpro.title
         this.$axios.patch('/userInfoRU/',tmp)
         .then(res=>{
-            alert("保存修改成功")
+            tmp.sex= tmp.sex=='male'?'男':'女'
+            this.changeUser(tmp)
         })
         .catch(err=>{alert('修改失败')})
+        
     }
 }
 

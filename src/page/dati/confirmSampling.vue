@@ -88,11 +88,12 @@ export default {
     adddiv() {
       this.numOfNewSample += 1;
       this.currentContent.push({ area: "", request: "", id: "" });
-      console.log(this.currentContent);
     },
     delectdiv() {
-      this.numOfNewSample -= 1;
-      this.currentContent.pop();
+      if (this.numOfNewSample >= 1) {
+        this.numOfNewSample -= 1;
+        this.currentContent.pop();
+      }
     },
     submitSample() {
       for (let i = 0; i < this.numOfNewSample; i++) {
@@ -103,9 +104,10 @@ export default {
           id: this.currentContent[i].id,
         };
         summitContent.detail = JSON.stringify(detail);
-        summitContent.operator = this.$store.state.userprofile
-        console.log(this.$store.state)
-        //summitContent.grossReport = this.$route.id;
+        console.log(this.$store.state);
+        summitContent.grossReport = this.$route.id;
+        summitContent.operator = 1;
+        //这一部分还未完成
         /* this.$axios.defaults.headers.Authorization =
           "Token " + this.$store.state.Authorization;
         this.$axios
@@ -115,7 +117,7 @@ export default {
           })
           .catch((err) => {
             console.log(err);
-          }); */
+          });*/
       }
     },
   },

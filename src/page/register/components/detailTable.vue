@@ -8,6 +8,13 @@
       <el-table-column label="病人ID" prop="patient"> </el-table-column>
       <el-table-column label="创建时间" prop="created"> </el-table-column>
       <el-table-column label="更新时间" prop="updated"> </el-table-column>
+      <el-table-column align="right">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="query(scope.$index, scope.row)"
+            >查看详情</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -61,6 +68,12 @@ export default {
         .catch((err) => {
           alert(err);
         });
+    },
+    query(index, row) {
+      this.$router.push({
+        path: "/register/show-all-reports",
+        query: { id: row.id },
+      });
     },
   },
 };

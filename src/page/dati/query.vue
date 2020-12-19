@@ -66,10 +66,11 @@ export default {
       });
   },
   methods: {
-    //翻页控制
+    //单页显示控制
     handleSizeChange(val) {
       //计算位移
       this.pageSize = val;
+      this.currentPage=1
       let parmas_send = {
         offset: (this.currentPage - 1) * this.pageSize,
         limit: this.pageSize,
@@ -94,7 +95,7 @@ export default {
           alert(err);
         });
     },
-    //单页显示数量控制
+    //翻页控制
     handleCurrentChange(val) {
       //计算位移
       this.currentPage = val;

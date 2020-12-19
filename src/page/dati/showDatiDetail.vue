@@ -34,7 +34,6 @@ export default {
     this.$axios
       .get("grossReportRetrieve/" + this.$route.query.id)
       .then((res) => {
-        console.log(res);
         this.id = res.data.id;
         this.doctor_name = res.data.doctorName;
         this.document_id = res.data.medicalFile;
@@ -47,6 +46,7 @@ export default {
   },
   data() {
     return {
+      form:{},
       id: "",
       doctor_name: "",
       document_id: "",

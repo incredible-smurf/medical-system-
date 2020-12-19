@@ -13,6 +13,8 @@ const instance=axios.create({
     return ret
   }]
 });
+instance.all=axios.all
+instance.spread=axios.spread
 /* instance.interceptors.request.use(function (config) {
   if(config.method!='get'){
       config.data=qs.stringify(config.data);

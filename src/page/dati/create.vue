@@ -60,10 +60,11 @@ export default {
     this.$axios.defaults.headers.Authorization =
       "Token " + this.$store.state.Authorization;
     this.$axios
-      .get("/grossDiagnosisModelList/", {
+      .get("/grossDiagnosisModelList/", {params:{
         category: "Gross",
         search: this.$store.state.userprofile.name,
-      })
+        limit: 500
+      }})
       .then((res) => {
         for (let i in res.data.results) {
           let tmp = {};

@@ -26,7 +26,7 @@ export default new Vuex.Store({////暴露Store对象
           state.userprofile.sex=user.sex
           state.userprofile.title=user.title
           localStorage.setItem('userprofile',state.userprofile)
-          console.log(state)
+          
         }
       }
 })

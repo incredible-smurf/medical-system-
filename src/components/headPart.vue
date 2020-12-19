@@ -37,7 +37,12 @@ export default {
           case '3':
             this.$router.push('/dati/create')
             break
-          
+          case '6':
+            this.$router.push('/first-diagnosis/create')
+            break
+          case '7':
+            this.$router.push('/main-diagnosis/create')
+            break
           case '8':
             this.$router.push('/template/templatemain')
             break

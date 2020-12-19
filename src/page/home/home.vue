@@ -1,16 +1,17 @@
 <template>
   <div>
-    <!-- HOME界面 亟待美化 -->
+    <!-- HOME界面  -->
     <el-container>
-      <el-header>医疗管理系统</el-header>
+      <homepage/>
     </el-container>
   </div>
 </template>
 
 <script>
+import homepage from "./component/rightBand"
 export default {
   name: "home",
-  components: {},
+  components: {homepage},
 };
 </script>
 

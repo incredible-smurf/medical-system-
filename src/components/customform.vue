@@ -247,7 +247,9 @@
         <el-form-item label="请选择模板类型" prop="category">
           <el-radio-group v-model="submit.category">
             <el-radio label="Gross">大体</el-radio>
-            <el-radio label="Diagnosis">诊断</el-radio>
+            <el-radio label="Diagnosis0">初诊</el-radio>
+            <el-radio label="Diagnosis1">主诊</el-radio>
+            <el-radio label="Diagnosis2">特诊</el-radio>
             <el-radio label="Materials">取材</el-radio>
             <el-radio label="Biopsy">切片</el-radio>
           </el-radio-group>
@@ -504,6 +506,7 @@ export default {
           tmp.category = this.submit.category;
           let detail = { template: this.formrule };
           tmp.detail = JSON.stringify(detail);
+          console.log(tmp)
           this.$axios.defaults.headers.Authorization =
             "Token " + this.$store.state.Authorization;
           //console.log(this.$axios.defaults)
